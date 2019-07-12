@@ -1,13 +1,13 @@
-# MicroPython Sensirion SCD30 CO2 Sensor Module I2C driver
+# Sensirion SCD30 CO² Sensor I2C driver for MicroPython
 
-Sensirion SCD30 is a CO2, Humidity and Temperature sensor on a module. This is
+Sensirion SCD30 is a CO², Humidity and Temperature sensor on a module. This is
 a I2C driver written in Python 3 for MicroPython.
 
 ## Getting Started
 
 ### Prerequisites
 
-* Sensirion SCD30 Sensor
+* Sensirion SCD30 Sensor Module
 * MicroPython board with I2C interface
 
 ### Wiring
@@ -41,7 +41,7 @@ while True:
     scd30.read_measurement()
 ```
 
-Note that the CO2 sensor needs some time to stabilize. Therefor the sensor
+Note that the CO² sensor needs some time to stabilize. Therefor the sensor
 should be kept powered to achieve a reasonable measurement interval (e.g. <5
 minutes). To save power the sensors measurement inverval can be tweaked. See
 also the [Low Power Mode for SCD30](https://docs-emea.rs-online.com/webdocs/16c9/0900766b816c9dc7.pdf)
@@ -49,7 +49,7 @@ application note.
 
 ### Calibration
 
-The CO2 sensor has two modes of calibration: FRC (Forced Recalibration) or ASC
+The CO² sensor has two modes of calibration: FRC (Forced Recalibration) or ASC
 (Automatic Self-Calibration). This only describes the former.
 
 Essentially the sensor is already calibrated at factory. However, when setting a
@@ -68,8 +68,7 @@ the old offset into account!
 ## Built With
 
 * [MicroPython](http://micropython.org/)
-* [SCD30](https://www.sensirion.com/en/environmental-sensors/carbon-dioxide-sensors-co2/)
-- SCD30 Sensor Module (available from various suppliers)
+* [SCD30 Sensor Module](https://www.sensirion.com/en/environmental-sensors/carbon-dioxide-sensors-co2/)
 
 ## License
 
