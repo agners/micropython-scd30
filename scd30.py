@@ -70,6 +70,9 @@ class SCD30:
     def stop_continous_measurement(self):
         self.__write_command(self.STOP_CONT_MEASURE)
 
+    def soft_reset(self):
+        self.__write_command(self.SOFT_RESET)
+
     def get_firmware_version(self):
         ver = self.__read_bytes(self.GET_FIRMWARE_VER, 3)
         self.__check_crc(ver)
