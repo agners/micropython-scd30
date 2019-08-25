@@ -68,9 +68,7 @@ class SCD30:
         self.i2c.writeto_mem(self.addr, self.START_CONT_MEASURE, data, addrsize=16)
 
     def stop_continous_measurement(self):
-        # writeto_mem seems to need some data, SCD30 would need no argument. But
-        # seems not to care...
-        self.i2c.writeto_mem(self.addr, self.STOP_CONT_MEASURE, b'\x00', addrsize=16)
+        self.__write_command(self.STOP_CONT_MEASURE)
 
     def get_firmware_version(self):
         ver = self.__read_bytes(self.GET_FIRMWARE_VER, 3)
@@ -150,9 +148,12 @@ class SCD30:
         data = bint + bytes([crc])
         self.i2c.writeto_mem(self.addr, self.SET_ALT_COMP, data, addrsize=16)
 
-    def __read_bytes(self, cmd, count):
+    def __write_command(self, cmd):
         bcmd = struct.pack('>H', cmd)
         self.i2c.writeto(self.addr, bcmd)
+
+    def __read_bytes(self, cmd, count):
+        self.__write_command(cmd)
         utime.sleep_us(self.pause)
         return self.i2c.readfrom(self.addr, count)
 
