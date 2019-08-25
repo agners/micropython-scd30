@@ -61,6 +61,17 @@ class SCD30:
         if not addr in i2c.scan():
             raise self.NotFoundException
 
+    def start_continous_measurement(self, ambient_pressure=0):
+        bint = struct.pack('>H', ambient_pressure)
+        crc = self.__crc(bint[0], bint[1])
+        data = bint + bytes([crc])
+        self.i2c.writeto_mem(self.addr, self.START_CONT_MEASURE, data, addrsize=16)
+
+    def stop_continous_measurement(self):
+        # writeto_mem seems to need some data, SCD30 would need no argument. But
+        # seems not to care...
+        self.i2c.writeto_mem(self.addr, self.STOP_CONT_MEASURE, b'\x00', addrsize=16)
+
     def get_firmware_version(self):
         ver = self.__read_bytes(self.GET_FIRMWARE_VER, 3)
         self.__check_crc(ver)
