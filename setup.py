@@ -13,7 +13,7 @@ with open(path.join(cwd, "README.md"), encoding="utf-8") as f:
 setup(
     name="micropython-scd30",
     py_modules=["scd30"],
-    version="0.1.0",
+    version="0.2.0",
     description="MicroPython I2C driver for SCD30 CO2 sensor module",
     long_description=long_description,
     long_description_content_type="text/markdown",
