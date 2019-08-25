@@ -54,8 +54,9 @@ class SCD30:
         130, 179, 224, 209, 70, 119, 36, 21, 59, 10, 89, 104, 255, 206, 157, 172
         ]
 
-    def __init__(self, i2c, addr):
+    def __init__(self, i2c, addr, pause=1000):
         self.i2c = i2c
+        self.pause = pause
         self.addr = addr
         if not addr in i2c.scan():
             raise self.NotFoundException
@@ -138,11 +139,11 @@ class SCD30:
         data = bint + bytes([crc])
         self.i2c.writeto_mem(self.addr, self.SET_ALT_COMP, data, addrsize=16)
 
-
-
-
     def __read_bytes(self, cmd, count):
-        return self.i2c.readfrom_mem(self.addr, cmd, count, addrsize=16)
+        bcmd = struct.pack('>H', cmd)
+        self.i2c.writeto(self.addr, bcmd)
+        utime.sleep_us(self.pause)
+        return self.i2c.readfrom(self.addr, count)
 
     def __check_crc(self, arr):
         assert (len(arr) == 3)
