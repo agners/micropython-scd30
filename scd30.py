@@ -2,6 +2,28 @@ from machine import I2C
 import utime
 import struct
 
+class I2CWrap:
+    def __init__(self, i2c):
+        self.i2c = i2c
+        if hasattr(i2c, 'writeto_mem'):
+            self.writeto_mem = i2c.writeto_mem
+            self.writeto = i2c.writeto
+            self.readfrom = i2c.readfrom
+        else:
+            self.writeto_mem = self._writeto_mem
+            self.writeto = self._writeto
+            self.readfrom = self._readfrom
+        self.scan = i2c.scan
+
+    def _writeto_mem(self, addr, memaddr, data):
+        return self.i2c.mem_write(data, addr, memaddr)
+
+    def _writeto(self, addr, data):
+        return self.i2c.send(data, addr)
+
+    def _readfrom(self, addr, count):
+        return self.i2c.recv(count, addr)
+
 class SCD30:
 
     class NotFoundException(Exception):
@@ -55,7 +77,7 @@ class SCD30:
         ]
 
     def __init__(self, i2c, addr, pause=1000):
-        self.i2c = i2c
+        self.i2c = I2CWrap(i2c)
         self.pause = pause
         self.addr = addr
         if not addr in i2c.scan():
