@@ -33,6 +33,7 @@ from scd30 import SCD30
 
 i2cbus = I2C(1)
 scd30 = SCD30(i2c, 0x61)
+scd30.start_continous_measurement()
 
 while True:
     # Wait for sensor data to be ready to read (by default every 2 seconds)
